@@ -1,13 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { AnalysisResponse } from '../types';
 import { HealthAvatarReaction } from './HealthAvatarReaction';
-import { ShieldAlert, ShieldCheck, Activity, Cpu, AlertCircle, HeartPulse } from 'lucide-react';
+import {
+  ShieldAlert,
+  ShieldCheck,
+  Activity,
+  Cpu,
+  AlertCircle,
+  HeartPulse,
+  Sparkles
+} from 'lucide-react';
 
 interface ResultsDashboardProps {
   result: AnalysisResponse;
+  onOpenRecommendations?: () => void;
 }
 
-export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ result }) => {
+export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
+  result,
+  onOpenRecommendations
+}) => {
   // Extract every field from the live API response
   const { classical_ml, input } = result;
   const {
@@ -89,13 +101,28 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ result }) =>
           </div>
         </div>
 
-        {/* Risk Category Badge */}
-        <div
-          style={{ fontFamily: 'Nunito, sans-serif' }}
-          className={`px-5 py-2 rounded-full font-black text-sm flex items-center gap-2.5 shadow-clay-button ${theme.badgeBg}`}
-        >
-          {theme.icon}
-          <span>{risk_category}</span>
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {/* Action Plan Button for Moderate / High Risk */}
+          {(isModerate || isHigh) && onOpenRecommendations && (
+            <button
+              type="button"
+              onClick={onOpenRecommendations}
+              style={{ fontFamily: 'Nunito, sans-serif' }}
+              className="px-4 py-2 rounded-full font-black text-xs flex items-center gap-1.5 bg-white border border-[#E9E4F2] shadow-clay-button-secondary text-[#7C3AED] hover:-translate-y-0.5 active:scale-95 active:shadow-clay-pressed transition-all duration-200 cursor-pointer"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
+              <span>View Improvement Plan</span>
+            </button>
+          )}
+
+          {/* Risk Category Badge */}
+          <div
+            style={{ fontFamily: 'Nunito, sans-serif' }}
+            className={`px-5 py-2 rounded-full font-black text-sm flex items-center gap-2.5 shadow-clay-button ${theme.badgeBg}`}
+          >
+            {theme.icon}
+            <span>{risk_category}</span>
+          </div>
         </div>
       </div>
 
@@ -183,8 +210,7 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ result }) =>
             </span>
             <div
               style={{ fontFamily: 'Nunito, sans-serif' }}
-              className="text-xl font-black text-[#332F3A]"
-            >
+              className="text-xl font-black text-[#332F3A]">
               {model_name}
             </div>
             <p className="text-xs text-[#635F69] font-medium leading-relaxed">

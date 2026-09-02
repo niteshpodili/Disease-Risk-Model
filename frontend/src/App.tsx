@@ -7,6 +7,7 @@ import { ComparisonCard } from './components/ComparisonCard';
 import { FeatureImportanceChart } from './components/FeatureImportanceChart';
 import { HistoryTable } from './components/HistoryTable';
 import { DocsModal, type DocTab } from './components/DocsModal';
+import { HealthRecommendationsModal } from './components/HealthRecommendationsModal';
 import {
   defaultModelMetadata,
   defaultAnalysisResult,
@@ -32,6 +33,9 @@ export function App() {
   // Docs Modal State
   const [isDocsOpen, setIsDocsOpen] = useState<boolean>(false);
   const [docsTab, setDocsTab] = useState<DocTab>('guide');
+
+  // Health Recommendations Modal State (Triggers on Moderate or High Risk after analyze)
+  const [isRecModalOpen, setIsRecModalOpen] = useState<boolean>(false);
 
   const handleOpenDocs = (tab: DocTab = 'guide') => {
     setDocsTab(tab);
@@ -64,6 +68,7 @@ export function App() {
     try {
       const response = await api.analyze(input);
       setCurrentResult(response);
+
       // Prepend to history
       const newHistoryItem: AnalysisHistoryItem = {
         id: response.id,
@@ -78,6 +83,15 @@ export function App() {
         created_at: new Date().toISOString()
       };
       setHistory((prev) => [newHistoryItem, ...prev.slice(0, 14)]);
+
+      // If health risk is Moderate or High, automatically show the improvement plan popup!
+      if (
+        response.classical_ml.risk_category === 'Moderate Risk' ||
+        response.classical_ml.risk_category === 'High Risk' ||
+        response.classical_ml.risk_percentage >= 34.0
+      ) {
+        setIsRecModalOpen(true);
+      }
     } catch (err: any) {
       setErrorMessage(err.message || 'An unexpected error occurred during analysis.');
     } finally {
@@ -100,6 +114,13 @@ export function App() {
         isOpen={isDocsOpen}
         initialTab={docsTab}
         onClose={() => setIsDocsOpen(false)}
+      />
+
+      {/* Health Improvement Recommendations Modal */}
+      <HealthRecommendationsModal
+        isOpen={isRecModalOpen}
+        result={currentResult}
+        onClose={() => setIsRecModalOpen(false)}
       />
 
       <Navbar
@@ -149,14 +170,17 @@ export function App() {
         {/* Patient Input Form */}
         <PatientForm onSubmit={handleAnalyze} isLoading={isLoading} />
 
-        {/* Results Section — always rendered and re-animated on each new result */}
+        {/* Results Section */}
         {currentResult && (
           <div
             key={currentResult.id}
             className="space-y-10"
             style={{ animation: 'fadeInUp 0.4s ease-out' }}
           >
-            <ResultsDashboard result={currentResult} />
+            <ResultsDashboard
+              result={currentResult}
+              onOpenRecommendations={() => setIsRecModalOpen(true)}
+            />
             <ComparisonCard result={currentResult} />
           </div>
         )}
