@@ -6,6 +6,7 @@ import { ResultsDashboard } from './components/ResultsDashboard';
 import { ComparisonCard } from './components/ComparisonCard';
 import { FeatureImportanceChart } from './components/FeatureImportanceChart';
 import { HistoryTable } from './components/HistoryTable';
+import { DocsModal, type DocTab } from './components/DocsModal';
 import type {
   HeartPredictionInput,
   AnalysisResponse,
@@ -13,7 +14,7 @@ import type {
   ModelMetadataResponse
 } from './types';
 import { api } from './services/api';
-import { AlertTriangle, Sparkles, Heart } from 'lucide-react';
+import { AlertTriangle, Sparkles, Heart, BookOpen, ShieldCheck, FileText } from 'lucide-react';
 
 export function App() {
   const [isHealthy, setIsHealthy] = useState<boolean>(false);
@@ -22,6 +23,15 @@ export function App() {
   const [history, setHistory] = useState<AnalysisHistoryItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Docs Modal State
+  const [isDocsOpen, setIsDocsOpen] = useState<boolean>(false);
+  const [docsTab, setDocsTab] = useState<DocTab>('guide');
+
+  const handleOpenDocs = (tab: DocTab = 'guide') => {
+    setDocsTab(tab);
+    setIsDocsOpen(true);
+  };
 
   useEffect(() => {
     fetchInitialData();
@@ -72,9 +82,17 @@ export function App() {
         <div className="absolute -bottom-[10%] right-[10%] w-[50vw] h-[50vw] rounded-full bg-[#A7F3D0]/35 blur-3xl animate-clay-breathe" />
       </div>
 
+      {/* Interactive Docs & Policies Modal */}
+      <DocsModal
+        isOpen={isDocsOpen}
+        initialTab={docsTab}
+        onClose={() => setIsDocsOpen(false)}
+      />
+
       <Navbar
         isHealthy={isHealthy}
         modelName={modelMetadata?.model_name || 'Classical Classifier'}
+        onOpenDocs={handleOpenDocs}
       />
       <DisclaimerBanner />
 
@@ -139,7 +157,7 @@ export function App() {
 
       {/* Floating Clay Footer */}
       <footer className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-8 pt-4">
-        <div className="bg-white/85 backdrop-blur-xl border border-white/80 shadow-clay-card rounded-[32px] px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#635F69] font-medium">
+        <div className="bg-white/85 backdrop-blur-xl border border-white/80 shadow-clay-card rounded-[32px] px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#635F69] font-medium">
           <div className="flex items-center gap-2">
             <Heart className="w-4 h-4 text-[#DB2777]" />
             <span style={{ fontFamily: 'Nunito, sans-serif' }} className="font-extrabold text-[#332F3A]">
@@ -147,8 +165,39 @@ export function App() {
             </span>
             <span>— Smart India Hackathon (SIH26139)</span>
           </div>
+
+          {/* Interactive Documentation, PP, and ToS Links */}
+          <div className="flex items-center gap-4 flex-wrap justify-center font-semibold">
+            <button
+              type="button"
+              onClick={() => handleOpenDocs('guide')}
+              className="hover:text-[#7C3AED] hover:underline flex items-center gap-1 transition-colors cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#7C3AED]" />
+              How to Use
+            </button>
+            <span>•</span>
+            <button
+              type="button"
+              onClick={() => handleOpenDocs('privacy')}
+              className="hover:text-[#0284C7] hover:underline flex items-center gap-1 transition-colors cursor-pointer"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-[#0284C7]" />
+              Privacy Policy
+            </button>
+            <span>•</span>
+            <button
+              type="button"
+              onClick={() => handleOpenDocs('terms')}
+              className="hover:text-[#DB2777] hover:underline flex items-center gap-1 transition-colors cursor-pointer"
+            >
+              <FileText className="w-3.5 h-3.5 text-[#DB2777]" />
+              Terms of Service
+            </button>
+          </div>
+
           <div className="flex items-center gap-2 font-mono text-[11px] text-[#7C3AED] font-bold">
-            <span>React + TypeScript + FastAPI + Scikit-learn + Qiskit</span>
+            <span>React + FastAPI + Scikit-learn + Qiskit</span>
           </div>
         </div>
       </footer>

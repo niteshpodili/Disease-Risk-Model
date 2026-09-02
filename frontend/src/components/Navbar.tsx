@@ -1,14 +1,16 @@
 import React from 'react';
-import { Activity, Cpu, Sparkles } from 'lucide-react';
+import { Activity, Cpu, Sparkles, BookOpen } from 'lucide-react';
+import type { DocTab } from './DocsModal';
 
 interface NavbarProps {
   isHealthy: boolean;
   modelName: string;
+  onOpenDocs: (tab?: DocTab) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ isHealthy, modelName }) => {
+export const Navbar: React.FC<NavbarProps> = ({ isHealthy, modelName, onOpenDocs }) => {
   return (
-    <header className="sticky top-4 z-50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-4 z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="bg-white/85 backdrop-blur-xl border border-white/80 shadow-clay-card rounded-[32px] px-6 py-3 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-3.5">
           <div className="relative flex items-center justify-center w-12 h-12 rounded-[20px] bg-gradient-to-br from-[#C4B5FD] to-[#7C3AED] text-white shadow-clay-button animate-clay-breathe">
@@ -36,7 +38,19 @@ export const Navbar: React.FC<NavbarProps> = ({ isHealthy, modelName }) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Docs & Guide Button */}
+          <button
+            type="button"
+            onClick={() => onOpenDocs('guide')}
+            style={{ fontFamily: 'Nunito, sans-serif' }}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white border border-[#E9E4F2] shadow-clay-button-secondary text-xs font-black text-[#7C3AED] hover:-translate-y-0.5 active:scale-95 active:shadow-clay-pressed transition-all duration-200 cursor-pointer"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-[#7C3AED]" />
+            <span className="hidden xs:inline">User Guide & Docs</span>
+            <span className="xs:hidden">Docs</span>
+          </button>
+
           {/* Active Model Pill */}
           <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-[#F4F1FA] border border-[#E9E4F2] shadow-clay-pressed text-xs font-semibold text-[#332F3A]">
             <Cpu className="w-4 h-4 text-[#7C3AED]" />
@@ -50,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isHealthy, modelName }) => {
                 isHealthy ? 'bg-[#10B981] shadow-[0_0_8px_#10B981]' : 'bg-[#EF4444] shadow-[0_0_8px_#EF4444]'
               }`}
             />
-            <span style={{ fontFamily: 'Nunito, sans-serif' }}>
+            <span style={{ fontFamily: 'Nunito, sans-serif' }} className="hidden sm:inline">
               {isHealthy ? 'System Active' : 'Connecting...'}
             </span>
           </div>
