@@ -1,0 +1,64 @@
+# ─── Environment & Secrets ────────────────────────────────────────────────────
+
+.env
+.env.local
+.env.production
+.env.staging
+backend/.env
+frontend/.env
+.insforge/
+
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+.pytest_cache/
+htmlcov/
+.coverage
+
+# ─── Local Database (SQLite fallback) ────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+heart_disease.db
+
+# ─── ML Artifacts (large binaries) ───────────────────────────────────────────
+# Comment out if you want to commit the trained model
+# backend/artifacts/*.joblib
+
+# ─── Node / Frontend ─────────────────────────────────────────────────────────
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/node_modules/
+
+# ─── IDE & OS ─────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# InsForge & AI agent skills
+.insforge
+.agent
+.agents
+.augment
+.claude
+.cline
+.github/copilot*
+.kilocode
+.qoder
+.qwen
+.roo
+.trae
+.windsurf

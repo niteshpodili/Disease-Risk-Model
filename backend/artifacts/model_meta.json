@@ -1,0 +1,89 @@
+{
+  "model_name": "Gradient Boosting",
+  "feature_names": [
+    "Age",
+    "Gender",
+    "BloodPressure",
+    "Cholesterol",
+    "HeartRate"
+  ],
+  "target_name": "HeartDisease",
+  "trained_at": "2026-09-02T08:33:30.250438Z",
+  "dataset_samples": 500,
+  "cv_metrics": {
+    "cv_accuracy_mean": 0.7825,
+    "cv_accuracy_std": 0.034999999999999996,
+    "cv_precision_mean": 0.8315835902792423,
+    "cv_recall_mean": 0.8083333333333332,
+    "cv_f1_mean": 0.8161485189820608,
+    "cv_f1_std": 0.031042015435234094,
+    "cv_roc_auc_mean": 0.8709635416666666
+  },
+  "test_metrics": {
+    "test_accuracy": 0.85,
+    "test_precision": 0.8688524590163934,
+    "test_recall": 0.8833333333333333,
+    "test_f1": 0.8760330578512396,
+    "test_roc_auc": 0.89875
+  },
+  "all_model_benchmarks": {
+    "Random Forest": {
+      "cv_accuracy_mean": 0.775,
+      "cv_accuracy_std": 0.023717082451262833,
+      "cv_precision_mean": 0.7925891600659403,
+      "cv_recall_mean": 0.85,
+      "cv_f1_mean": 0.8185238157287845,
+      "cv_f1_std": 0.023267498466691475,
+      "cv_roc_auc_mean": 0.8553385416666668
+    },
+    "Gradient Boosting": {
+      "cv_accuracy_mean": 0.7825,
+      "cv_accuracy_std": 0.034999999999999996,
+      "cv_precision_mean": 0.8315835902792423,
+      "cv_recall_mean": 0.8083333333333332,
+      "cv_f1_mean": 0.8161485189820608,
+      "cv_f1_std": 0.031042015435234094,
+      "cv_roc_auc_mean": 0.8709635416666666
+    },
+    "Logistic Regression": {
+      "cv_accuracy_mean": 0.7150000000000001,
+      "cv_accuracy_std": 0.03657184709581946,
+      "cv_precision_mean": 0.7525392509024469,
+      "cv_recall_mean": 0.7875,
+      "cv_f1_mean": 0.7672764528234777,
+      "cv_f1_std": 0.033170503062566054,
+      "cv_roc_auc_mean": 0.7940104166666666
+    },
+    "Decision Tree": {
+      "cv_accuracy_mean": 0.755,
+      "cv_accuracy_std": 0.018708286933869726,
+      "cv_precision_mean": 0.8554179566563468,
+      "cv_recall_mean": 0.7166666666666667,
+      "cv_f1_mean": 0.777460796278153,
+      "cv_f1_std": 0.02364012708280219,
+      "cv_roc_auc_mean": 0.8083333333333333
+    }
+  },
+  "global_feature_importances": {
+    "Age": 0.3527,
+    "Gender": 0.0198,
+    "BloodPressure": 0.1013,
+    "Cholesterol": 0.3648,
+    "HeartRate": 0.1613
+  },
+  "risk_thresholds": {
+    "low": [
+      0.0,
+      0.33
+    ],
+    "moderate": [
+      0.34,
+      0.66
+    ],
+    "high": [
+      0.67,
+      1.0
+    ]
+  },
+  "disclaimer": "Global Model Feature Importance \u2014 Dataset-level predictive weights, not individual patient diagnostic causation."
+}

@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-nunito: 'Nunito', system-ui, -apple-system, sans-serif;
+    --font-dmsans: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    background-color: #F4F1FA;
+    color: #332F3A;
+    font-family: var(--font-dmsans);
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-nunito);
+  }
+}
+
+/* 4-Layer High-Fidelity Claymorphic Shadows */
+.shadow-clay-surface {
+  box-shadow: 
+    30px 30px 60px #cdc6d9,
+    -30px -30px 60px #ffffff,
+    inset 10px 10px 20px rgba(139, 92, 246, 0.04),
+    inset -10px -10px 20px rgba(255, 255, 255, 0.9);
+}
+
+.shadow-clay-card {
+  box-shadow: 
+    16px 16px 32px rgba(160, 150, 180, 0.22),
+    -10px -10px 24px rgba(255, 255, 255, 0.95),
+    inset 6px 6px 12px rgba(139, 92, 246, 0.03),
+    inset -6px -6px 12px rgba(255, 255, 255, 1);
+}
+
+.shadow-clay-card-hover {
+  box-shadow: 
+    22px 22px 42px rgba(160, 150, 180, 0.28),
+    -12px -12px 28px rgba(255, 255, 255, 1),
+    inset 6px 6px 12px rgba(139, 92, 246, 0.04),
+    inset -6px -6px 12px rgba(255, 255, 255, 1);
+}
+
+.shadow-clay-button {
+  box-shadow: 
+    10px 10px 20px rgba(124, 58, 237, 0.3),
+    -6px -6px 16px rgba(255, 255, 255, 0.6),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.45),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.shadow-clay-button-hover {
+  box-shadow: 
+    14px 14px 26px rgba(124, 58, 237, 0.4),
+    -8px -8px 20px rgba(255, 255, 255, 0.75),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.5),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.shadow-clay-button-secondary {
+  box-shadow: 
+    10px 10px 20px rgba(160, 150, 180, 0.25),
+    -6px -6px 16px rgba(255, 255, 255, 0.9),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.9),
+    inset -4px -4px 8px rgba(160, 150, 180, 0.15);
+}
+
+.shadow-clay-pressed {
+  box-shadow: 
+    inset 8px 8px 16px #d9d4e3,
+    inset -8px -8px 16px #ffffff;
+}
+
+.shadow-clay-orb {
+  box-shadow: 
+    12px 12px 24px rgba(160, 150, 180, 0.22),
+    -8px -8px 20px rgba(255, 255, 255, 0.95),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.6),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Animations */
+@keyframes clay-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+@keyframes clay-float-delayed {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(-2deg); }
+}
+
+@keyframes clay-float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-28px) rotate(4deg); }
+}
+
+@keyframes clay-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-clay-float {
+  animation: clay-float 8s ease-in-out infinite;
+}
+
+.animate-clay-float-delayed {
+  animation: clay-float-delayed 10s ease-in-out infinite;
+}
+
+.animate-clay-float-slow {
+  animation: clay-float-slow 12s ease-in-out infinite;
+}
+
+.animate-clay-breathe {
+  animation: clay-breathe 6s ease-in-out infinite;
+}
+
+/* Custom modern range slider */
+input[type=range] {
+  accent-color: #7C3AED;
+  cursor: pointer;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F4F1FA;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cdc6d9;
+  border-radius: 9999px;
+  border: 2px solid #F4F1FA;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b5adc4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-clay-float,
+  .animate-clay-float-delayed,
+  .animate-clay-float-slow,
+  .animate-clay-breathe {
+    animation: none !important;
+  }
+}
