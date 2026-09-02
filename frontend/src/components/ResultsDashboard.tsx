@@ -99,10 +99,11 @@ export const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ result }) =>
         </div>
       </div>
 
-      {/* Interactive Character Health Score Reaction Card */}
+      {/* Interactive Character Health Score Reaction Card (Male / Female) */}
       <HealthAvatarReaction
         riskPercentage={risk_percentage}
         riskCategory={risk_category}
+        gender={input.gender}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">

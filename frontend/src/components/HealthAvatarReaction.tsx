@@ -4,20 +4,25 @@ import { ShieldCheck, AlertCircle, ShieldAlert, Heart } from 'lucide-react';
 interface HealthAvatarReactionProps {
   riskPercentage: number;
   riskCategory: 'Low Risk' | 'Moderate Risk' | 'High Risk' | string;
+  gender?: number; // 0 for Female, 1 for Male
 }
 
 export const HealthAvatarReaction: React.FC<HealthAvatarReactionProps> = ({
   riskPercentage,
-  riskCategory
+  riskCategory,
+  gender = 1
 }) => {
   const isHigh = riskCategory === 'High Risk' || riskPercentage >= 67;
   const isModerate = !isHigh && (riskCategory === 'Moderate Risk' || riskPercentage >= 34);
+  const isFemale = gender === 0;
 
   const stateConfig = isHigh
     ? {
-        image: '/avatars/avatar_high_risk.jpg',
+        image: isFemale
+          ? '/avatars/avatar_female_high_risk.jpg'
+          : '/avatars/avatar_high_risk.jpg',
         title: 'Elevated Risk Level',
-        subtitle: 'Low Health Score Simulation',
+        subtitle: `${isFemale ? 'Female' : 'Male'} Low Health Score Simulation`,
         expression: 'Fatigued & Concerned',
         quote: 'Multiple biometric risk markers elevated. Clinical consultation and formal diagnostic checkup strongly advised.',
         badgeColor: 'bg-gradient-to-br from-[#F87171] to-[#DC2626] text-white',
@@ -27,9 +32,11 @@ export const HealthAvatarReaction: React.FC<HealthAvatarReactionProps> = ({
       }
     : isModerate
     ? {
-        image: '/avatars/avatar_moderate.jpg',
+        image: isFemale
+          ? '/avatars/avatar_female_moderate.jpg'
+          : '/avatars/avatar_moderate.jpg',
         title: 'Moderate Attention Advised',
-        subtitle: 'Medium Health Score Simulation',
+        subtitle: `${isFemale ? 'Female' : 'Male'} Medium Health Score Simulation`,
         expression: 'Slightly Concerned',
         quote: 'Borderline biometric indicators detected. Routine monitoring and healthy lifestyle adjustments suggested.',
         badgeColor: 'bg-gradient-to-br from-[#FBBF24] to-[#D97706] text-white',
@@ -38,9 +45,11 @@ export const HealthAvatarReaction: React.FC<HealthAvatarReactionProps> = ({
         icon: <AlertCircle className="w-4 h-4 text-white" />
       }
     : {
-        image: '/avatars/avatar_healthy.jpg',
+        image: isFemale
+          ? '/avatars/avatar_female_healthy.jpg'
+          : '/avatars/avatar_healthy.jpg',
         title: 'Optimal Health Profile',
-        subtitle: 'High Health Score Simulation',
+        subtitle: `${isFemale ? 'Female' : 'Male'} High Health Score Simulation`,
         expression: 'Radiant & Confident',
         quote: 'Evaluated biometric parameters align well within healthy low-probability baseline distributions.',
         badgeColor: 'bg-gradient-to-br from-[#34D399] to-[#059669] text-white',
@@ -58,7 +67,7 @@ export const HealthAvatarReaction: React.FC<HealthAvatarReactionProps> = ({
         >
           <img
             src={stateConfig.image}
-            alt={`Character state: ${stateConfig.expression}`}
+            alt={`${isFemale ? 'Female' : 'Male'} character state: ${stateConfig.expression}`}
             className="w-full h-full object-cover rounded-full transition-opacity duration-500 ease-in-out"
           />
         </div>
@@ -85,7 +94,7 @@ export const HealthAvatarReaction: React.FC<HealthAvatarReactionProps> = ({
                 {stateConfig.title}
               </span>
               <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#EDE9FE] text-[#7C3AED] border border-[#DDD6FE]">
-                Interactive Avatar
+                {isFemale ? 'Female Avatar' : 'Male Avatar'}
               </span>
             </div>
             <p className="text-[11px] text-[#635F69] font-medium">
