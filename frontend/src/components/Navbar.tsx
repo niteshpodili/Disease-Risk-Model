@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Cpu, Sparkles, BookOpen } from 'lucide-react';
+import { Cpu, BookOpen } from 'lucide-react';
 import type { DocTab } from './DocsModal';
 
 interface NavbarProps {
@@ -13,9 +13,13 @@ export const Navbar: React.FC<NavbarProps> = ({ isHealthy, modelName, onOpenDocs
     <header className="sticky top-4 z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="bg-white/85 backdrop-blur-xl border border-white/80 shadow-clay-card rounded-[32px] px-6 py-3 flex items-center justify-between transition-all duration-300">
         <div className="flex items-center gap-3.5">
-          <div className="relative flex items-center justify-center w-12 h-12 rounded-[20px] bg-gradient-to-br from-[#C4B5FD] to-[#7C3AED] text-white shadow-clay-button animate-clay-breathe">
-            <Activity className="w-6 h-6 text-white" />
-            <Sparkles className="w-3.5 h-3.5 text-[#FDE047] absolute -top-1 -right-1" />
+          {/* Official 3D Quantum-Heart Brand Logo */}
+          <div className="relative flex items-center justify-center w-12 h-12 rounded-[20px] bg-white border-2 border-white shadow-clay-orb overflow-hidden p-0.5 hover:scale-105 transition-transform duration-300 shrink-0">
+            <img
+              src="/logo.jpg"
+              alt="CardioQuantum Logo"
+              className="w-full h-full object-cover rounded-[18px]"
+            />
           </div>
           <div>
             <div className="flex items-center gap-2">
