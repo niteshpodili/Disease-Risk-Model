@@ -9,7 +9,7 @@ By accessing or using the **CardioQuantum** platform (the "Platform"), you agree
 
 ---
 
-## 2. Educational & Research Demonstration Only (Strict Non-Clinical Disclaimer)
+## 2. Educational and Research Demonstration Only (Strict Non-Clinical Disclaimer)
 
 > **IMPORTANT MEDICAL DISCLAIMER:**  
 > The Platform is strictly an **educational and research prototype** created for the **Smart India Hackathon (SIH26139)**. 
@@ -21,7 +21,7 @@ By accessing or using the **CardioQuantum** platform (the "Platform"), you agree
 
 ---
 
-## 3. Scope of Machine Learning & Quantum Simulation Modules
+## 3. Scope of Machine Learning and Quantum Simulation Modules
 
 1. **Classical Machine Learning Module**:
    * Utilizes a Gradient Boosting model trained on public academic research data.
@@ -34,7 +34,7 @@ By accessing or using the **CardioQuantum** platform (the "Platform"), you agree
 
 ---
 
-## 4. User Conduct & Acceptable Use
+## 4. User Conduct and Acceptable Use
 
 You agree to use the Platform only for lawful, educational, research, and demonstration purposes. You agree **NOT** to:
 * Attempt to reverse engineer, disrupt, or overload the backend infrastructure.
@@ -43,14 +43,14 @@ You agree to use the Platform only for lawful, educational, research, and demons
 
 ---
 
-## 5. Limitation of Liability & Warranty Disclaimer
+## 5. Limitation of Liability and Warranty Disclaimer
 
 * The Platform is provided on an **"AS IS"** and **"AS AVAILABLE"** basis without warranties of any kind, either express or implied.
 * The development team, contributors, and Smart India Hackathon organizers shall **NOT** be liable for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use the Platform.
 
 ---
 
-## 6. Intellectual Property & Academic Usage
+## 6. Intellectual Property and Academic Usage
 
 All platform software, algorithms, UI designs, and documentation are developed for open academic demonstration under standard open-source research terms.
 

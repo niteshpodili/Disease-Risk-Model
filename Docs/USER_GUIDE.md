@@ -1,11 +1,11 @@
-# CardioQuantum — User Guide & Demonstration Playbook
+# CardioQuantum — User Guide and Demonstration Playbook
 ### Smart India Hackathon MVP (SIH26139)
 
 Welcome to the **CardioQuantum** healthcare analytics platform demonstration guide. This playbook explains how to operate the platform, interpret the dual prediction engines, and present a 2-minute demonstration flow.
 
 ---
 
-## 🧭 1. Platform Navigation & Overview
+## 1. Platform Navigation and Overview
 
 The user interface follows a modern **High-Fidelity Claymorphism** design system with tactile controls:
 
@@ -19,52 +19,52 @@ The user interface follows a modern **High-Fidelity Claymorphism** design system
 
 ---
 
-## 🎛️ 2. How to Input Biometric Parameters
+## 2. How to Input Biometric Parameters
 
 You have two convenient methods to configure patient data:
 
 ### Method A: Quick Demo Profiles (Recommended for Fast Demos)
 Click any of the 3 preset buttons at the top of the form:
-* **🟢 Healthy Adult**: $32\text{y Female}$, $\text{BP: } 110\text{ mmHg}$, $\text{Chol: } 175\text{ mg/dL}$, $\text{HR: } 68\text{ bpm}$ $\to$ Low Risk Tier.
-* **🟡 Moderate Risk**: $55\text{y Male}$, $\text{BP: } 135\text{ mmHg}$, $\text{Chol: } 215\text{ mg/dL}$, $\text{HR: } 82\text{ bpm}$ $\to$ Moderate Risk Tier.
-* **🔴 High Risk Senior**: $72\text{y Male}$, $\text{BP: } 160\text{ mmHg}$, $\text{Chol: } 265\text{ mg/dL}$, $\text{HR: } 102\text{ bpm}$ $\to$ High Risk Tier.
+* **Healthy Adult**: 32y Female, BP: 110 mmHg, Chol: 175 mg/dL, HR: 68 bpm -> Low Risk Tier.
+* **Moderate Risk**: 55y Male, BP: 135 mmHg, Chol: 215 mg/dL, HR: 82 bpm -> Moderate Risk Tier.
+* **High Risk Senior**: 72y Male, BP: 160 mmHg, Chol: 265 mg/dL, HR: 102 bpm -> High Risk Tier.
 
-### Method B: Custom Dial & Numeric Input
+### Method B: Custom Dial and Numeric Input
 For each of the 4 continuous parameters:
 1. **Interactive Radial Dial**: Drag or click anywhere along the circular arc to rotate the dial knob.
 2. **Compact Numeric Box**: Type any value directly into the input field below the dial.
-3. **Stepper Buttons (`-` / `+`)**: Click the step buttons for fine single-unit adjustments.
+3. **Stepper Buttons (- / +)**: Click the step buttons for fine single-unit adjustments.
 
 ---
 
-## 🚀 3. Running the Hybrid Analysis
+## 3. Running the Hybrid Analysis
 
-1. Click the large purple gradient button: **`Run Hybrid Risk Analysis`**.
-2. The button will squish into a loading state (*"Simulating Quantum & ML Engine..."*).
-3. Within $< 200\text{ms}$, the backend runs the Scikit-learn Gradient Boosting pipeline and Qiskit 4-qubit circuit simulation simultaneously.
+1. Click the button: **`Run Hybrid Risk Analysis`**.
+2. The button will transition into a loading state ("Simulating Quantum and ML Engine...").
+3. Within 200ms, the backend runs the Scikit-learn Gradient Boosting pipeline and Qiskit 4-qubit circuit simulation simultaneously.
 4. The dashboard automatically renders the dynamic results below.
 
 ---
 
-## 📊 4. Interpreting the Results
+## 4. Interpreting the Results
 
 ### A. Clinical Risk Gauge (Classical ML Engine)
-* **Risk Score Percentage**: Calibrated class probability ($0.0\% - 100.0\%$).
+* **Risk Score Percentage**: Calibrated class probability (0.0% - 100.0%).
 * **Risk Categorization**:
-  * **🟢 Low Risk ($0\% - 33\%$)**: Biometrics align with baseline healthy distributions.
-  * **🟡 Moderate Risk ($34\% - 66\%$)**: Borderline biometric elevation; lifestyle or monitoring recommended.
-  * **🔴 High Risk ($67\% - 100\%$)**: High probability cluster of cardiovascular risk factors.
+  * **Low Risk (0% - 33%)**: Biometrics align with baseline healthy distributions.
+  * **Moderate Risk (34% - 66%)**: Borderline biometric elevation; lifestyle or monitoring recommended.
+  * **High Risk (67% - 100%)**: High probability cluster of cardiovascular risk factors.
 * **Diagnostic Prediction**: Binary clinical classification (`Disease Indicated` vs. `No Disease Indicated`).
 
 ### B. Experimental Quantum Simulation Module
 * **Experimental Quantum Score**: Subspace entanglement alignment score from the 4-qubit circuit.
 * **Alignment Delta**: Difference between Classical ML probability and Quantum score.
-* **Top Measured Quantum Basis States**: Histogram of simulated projective readouts (e.g. $|0101\rangle, |1100\rangle$) across 1024 shots in Qiskit `AerSimulator`.
+* **Top Measured Quantum Basis States**: Histogram of simulated projective readouts (such as |0101>, |1100>) across 1024 shots in Qiskit `AerSimulator`.
 * **Important**: Always labeled as *Non-Clinical Educational Simulation*.
 
 ---
 
-## ⏱️ 5. Two-Minute Hackathon Demo Script
+## 5. Two-Minute Hackathon Demo Script
 
 ```text
 [00:00 - 00:20] "CardioQuantum is a hybrid healthcare demonstration platform built for SIH26139.
