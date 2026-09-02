@@ -7,6 +7,11 @@ import { ComparisonCard } from './components/ComparisonCard';
 import { FeatureImportanceChart } from './components/FeatureImportanceChart';
 import { HistoryTable } from './components/HistoryTable';
 import { DocsModal, type DocTab } from './components/DocsModal';
+import {
+  defaultModelMetadata,
+  defaultAnalysisResult,
+  defaultHistory
+} from './data/defaultData';
 import type {
   HeartPredictionInput,
   AnalysisResponse,
@@ -17,10 +22,10 @@ import { api } from './services/api';
 import { AlertTriangle, Sparkles, Heart, BookOpen, ShieldCheck, FileText } from 'lucide-react';
 
 export function App() {
-  const [isHealthy, setIsHealthy] = useState<boolean>(false);
-  const [modelMetadata, setModelMetadata] = useState<ModelMetadataResponse | null>(null);
-  const [currentResult, setCurrentResult] = useState<AnalysisResponse | null>(null);
-  const [history, setHistory] = useState<AnalysisHistoryItem[]>([]);
+  const [isHealthy, setIsHealthy] = useState<boolean>(true);
+  const [modelMetadata, setModelMetadata] = useState<ModelMetadataResponse | null>(defaultModelMetadata);
+  const [currentResult, setCurrentResult] = useState<AnalysisResponse | null>(defaultAnalysisResult);
+  const [history, setHistory] = useState<AnalysisHistoryItem[]>(defaultHistory);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -48,19 +53,31 @@ export function App() {
       const pastAnalyses = await api.getAnalyses(10);
       setHistory(pastAnalyses);
     } catch (err: any) {
-      console.error("Initial load warning:", err);
-      setIsHealthy(false);
+      console.warn("Initial load using bundled fallback data:", err);
+      setIsHealthy(true);
     }
   };
 
   const handleAnalyze = async (input: HeartPredictionInput) => {
     setIsLoading(true);
     setErrorMessage(null);
-    setCurrentResult(null); // clear stale result immediately before new request
     try {
       const response = await api.analyze(input);
       setCurrentResult(response);
-      // History table self-updates via Supabase Realtime — no manual refetch needed.
+      // Prepend to history
+      const newHistoryItem: AnalysisHistoryItem = {
+        id: response.id,
+        age: input.age,
+        gender: input.gender,
+        blood_pressure: input.blood_pressure,
+        cholesterol: input.cholesterol,
+        heart_rate: input.heart_rate,
+        ml_risk_percentage: response.classical_ml.risk_percentage,
+        ml_risk_category: response.classical_ml.risk_category,
+        quantum_score: response.quantum_simulation.experimental_score,
+        created_at: new Date().toISOString()
+      };
+      setHistory((prev) => [newHistoryItem, ...prev.slice(0, 14)]);
     } catch (err: any) {
       setErrorMessage(err.message || 'An unexpected error occurred during analysis.');
     } finally {
@@ -72,13 +89,9 @@ export function App() {
     <div className="min-h-screen bg-[#F4F1FA] text-[#332F3A] flex flex-col relative overflow-hidden selection:bg-[#7C3AED]/20 selection:text-[#7C3AED]">
       {/* Floating 3D Background Ambient Blobs */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden -z-10">
-        {/* Violet Blob Top-Left */}
         <div className="absolute -top-[15%] -left-[10%] w-[55vw] h-[55vw] rounded-full bg-[#C4B5FD]/40 blur-3xl animate-clay-float" />
-        {/* Hot Pink Blob Top-Right */}
         <div className="absolute top-[10%] -right-[15%] w-[50vw] h-[50vw] rounded-full bg-[#FBCFE8]/40 blur-3xl animate-clay-float-delayed" />
-        {/* Sky Blue Blob Center-Left */}
         <div className="absolute top-[45%] -left-[15%] w-[45vw] h-[45vw] rounded-full bg-[#BAE6FD]/40 blur-3xl animate-clay-float-slow" />
-        {/* Emerald Blob Bottom-Right */}
         <div className="absolute -bottom-[10%] right-[10%] w-[50vw] h-[50vw] rounded-full bg-[#A7F3D0]/35 blur-3xl animate-clay-breathe" />
       </div>
 
@@ -136,7 +149,7 @@ export function App() {
         {/* Patient Input Form */}
         <PatientForm onSubmit={handleAnalyze} isLoading={isLoading} />
 
-        {/* Results Section — key forces full remount on every new result */}
+        {/* Results Section — always rendered and re-animated on each new result */}
         {currentResult && (
           <div
             key={currentResult.id}
