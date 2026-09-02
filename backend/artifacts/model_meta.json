@@ -8,68 +8,68 @@
     "HeartRate"
   ],
   "target_name": "HeartDisease",
-  "trained_at": "2026-09-02T11:26:59.580450Z",
-  "dataset_samples": 600,
+  "trained_at": "2026-09-02T11:30:15.570185Z",
+  "dataset_samples": 650,
   "cv_metrics": {
-    "cv_accuracy_mean": 0.83125,
-    "cv_accuracy_std": 0.02224391302506523,
-    "cv_precision_mean": 0.8283208616780044,
-    "cv_recall_mean": 0.8442176870748298,
-    "cv_f1_mean": 0.8358483075914478,
-    "cv_f1_std": 0.01984417209728104,
-    "cv_roc_auc_mean": 0.9080855059222269
+    "cv_accuracy_mean": 0.826923076923077,
+    "cv_accuracy_std": 0.03545978637420344,
+    "cv_precision_mean": 0.8384015185225311,
+    "cv_recall_mean": 0.8625365283459965,
+    "cv_f1_mean": 0.8485661869410863,
+    "cv_f1_std": 0.027980300498701233,
+    "cv_roc_auc_mean": 0.8764670771958653
   },
   "test_metrics": {
-    "test_accuracy": 0.8666666666666667,
-    "test_precision": 0.835820895522388,
-    "test_recall": 0.9180327868852459,
-    "test_f1": 0.875,
-    "test_roc_auc": 0.9380383439844401
+    "test_accuracy": 0.8384615384615385,
+    "test_precision": 0.825,
+    "test_recall": 0.9041095890410958,
+    "test_f1": 0.8627450980392157,
+    "test_roc_auc": 0.9154049507329969
   },
   "all_model_benchmarks": {
     "Random Forest": {
-      "cv_accuracy_mean": 0.8041666666666666,
-      "cv_accuracy_std": 0.02019866607256805,
-      "cv_precision_mean": 0.7934939525882923,
-      "cv_recall_mean": 0.8319727891156463,
-      "cv_f1_mean": 0.8119359758898874,
-      "cv_f1_std": 0.019611055401831532,
-      "cv_roc_auc_mean": 0.8914559285593668
+      "cv_accuracy_mean": 0.798076923076923,
+      "cv_accuracy_std": 0.0354597863742034,
+      "cv_precision_mean": 0.7956143895149124,
+      "cv_recall_mean": 0.8661601402688488,
+      "cv_f1_mean": 0.8279769651691773,
+      "cv_f1_std": 0.026762788324858965,
+      "cv_roc_auc_mean": 0.866514680512851
     },
     "Gradient Boosting": {
-      "cv_accuracy_mean": 0.83125,
-      "cv_accuracy_std": 0.02224391302506523,
-      "cv_precision_mean": 0.8283208616780044,
-      "cv_recall_mean": 0.8442176870748298,
-      "cv_f1_mean": 0.8358483075914478,
-      "cv_f1_std": 0.01984417209728104,
-      "cv_roc_auc_mean": 0.9080855059222269
+      "cv_accuracy_mean": 0.826923076923077,
+      "cv_accuracy_std": 0.03545978637420344,
+      "cv_precision_mean": 0.8384015185225311,
+      "cv_recall_mean": 0.8625365283459965,
+      "cv_f1_mean": 0.8485661869410863,
+      "cv_f1_std": 0.027980300498701233,
+      "cv_roc_auc_mean": 0.8764670771958653
     },
     "Logistic Regression": {
-      "cv_accuracy_mean": 0.7437500000000001,
-      "cv_accuracy_std": 0.04197800349918727,
-      "cv_precision_mean": 0.7601652982276083,
-      "cv_recall_mean": 0.7257653061224489,
-      "cv_f1_mean": 0.7421685983296659,
-      "cv_f1_std": 0.041250248542158655,
-      "cv_roc_auc_mean": 0.7930652801900903
+      "cv_accuracy_mean": 0.6134615384615385,
+      "cv_accuracy_std": 0.01121336902854866,
+      "cv_precision_mean": 0.6450563888562633,
+      "cv_recall_mean": 0.6943308007013442,
+      "cv_f1_mean": 0.66744733831348,
+      "cv_f1_std": 0.01009557392765832,
+      "cv_roc_auc_mean": 0.6630464711147251
     },
     "Decision Tree": {
-      "cv_accuracy_mean": 0.8020833333333334,
-      "cv_accuracy_std": 0.027163343355011048,
-      "cv_precision_mean": 0.8088600522543044,
-      "cv_recall_mean": 0.8073129251700679,
-      "cv_f1_mean": 0.8059423796417619,
-      "cv_f1_std": 0.02305897134276592,
-      "cv_roc_auc_mean": 0.8532078101630723
+      "cv_accuracy_mean": 0.7153846153846153,
+      "cv_accuracy_std": 0.04106568558473582,
+      "cv_precision_mean": 0.7357709540839397,
+      "cv_recall_mean": 0.7736411455289304,
+      "cv_f1_mean": 0.7518214936247724,
+      "cv_f1_std": 0.03969623051644264,
+      "cv_roc_auc_mean": 0.7572623010528634
     }
   },
   "global_feature_importances": {
-    "Age": 0.5087,
-    "Gender": 0.0147,
-    "BloodPressure": 0.1286,
-    "Cholesterol": 0.228,
-    "HeartRate": 0.12
+    "Age": 0.4987,
+    "Gender": 0.0149,
+    "BloodPressure": 0.0847,
+    "Cholesterol": 0.2783,
+    "HeartRate": 0.1234
   },
   "risk_thresholds": {
     "low": [
