@@ -1,34 +1,40 @@
 import React, { useState } from 'react';
 import type { HeartPredictionInput } from '../types';
-import { Sparkles, User, Heart, Gauge, Droplet, RefreshCw, Sliders } from 'lucide-react';
+import { CircularSelector } from './CircularSelector';
+import {
+  Sparkles,
+  User,
+  Heart,
+  Gauge,
+  Droplet,
+  RefreshCw,
+  Sliders,
+  Calendar
+} from 'lucide-react';
 
 interface PatientFormProps {
   onSubmit: (input: HeartPredictionInput) => void;
   isLoading: boolean;
 }
 
-const PRESETS: { name: string; desc: string; values: HeartPredictionInput; color: string }[] = [
+const PRESETS: { name: string; desc: string; values: HeartPredictionInput }[] = [
   {
-    name: "Healthy Adult",
-    desc: "32y Female, Normal BP & Chol",
-    values: { age: 32, gender: 0, blood_pressure: 110, cholesterol: 175, heart_rate: 68, shots: 1024 },
-    color: "from-[#34D399] to-[#059669]"
+    name: 'Healthy Adult',
+    desc: '32y Female, Normal BP & Chol',
+    values: { age: 32, gender: 0, blood_pressure: 110, cholesterol: 175, heart_rate: 68, shots: 1024 }
   },
   {
-    name: "Moderate Risk",
-    desc: "55y Male, Borderline BP",
-    values: { age: 55, gender: 1, blood_pressure: 135, cholesterol: 215, heart_rate: 82, shots: 1024 },
-    color: "from-[#FBBF24] to-[#D97706]"
+    name: 'Moderate Risk',
+    desc: '55y Male, Borderline BP',
+    values: { age: 55, gender: 1, blood_pressure: 135, cholesterol: 215, heart_rate: 82, shots: 1024 }
   },
   {
-    name: "High Risk Senior",
-    desc: "72y Male, Elevated Biometrics",
-    values: { age: 72, gender: 1, blood_pressure: 160, cholesterol: 265, heart_rate: 102, shots: 1024 },
-    color: "from-[#F87171] to-[#DC2626]"
+    name: 'High Risk Senior',
+    desc: '72y Male, Elevated Biometrics',
+    values: { age: 72, gender: 1, blood_pressure: 160, cholesterol: 265, heart_rate: 102, shots: 1024 }
   }
 ];
 
-// Internal form state — shots is always 1024, never exposed to the user
 interface FormState {
   age: number;
   gender: number;
@@ -43,18 +49,11 @@ export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading })
     gender: 1,
     blood_pressure: 130,
     cholesterol: 215,
-    heart_rate: 88,
+    heart_rate: 88
   });
 
-  // Safely parse numeric input — clamp to [min, max], never corrupt state with NaN
-  const clampedInt = (raw: string, min: number, max: number): number => {
-    const n = parseInt(raw, 10);
-    if (isNaN(n)) return min;
-    return Math.max(min, Math.min(max, n));
-  };
-
   const handleChange = (field: keyof FormState, value: number) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleApplyPreset = (preset: HeartPredictionInput) => {
@@ -63,14 +62,16 @@ export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading })
       gender: preset.gender,
       blood_pressure: preset.blood_pressure,
       cholesterol: preset.cholesterol,
-      heart_rate: preset.heart_rate,
+      heart_rate: preset.heart_rate
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Always send shots=1024 — not user-configurable in MVP
-    onSubmit({ ...formData, shots: 1024 });
+    onSubmit({
+      ...formData,
+      shots: 1024
+    });
   };
 
   return (
@@ -82,18 +83,24 @@ export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading })
             <Sliders className="w-7 h-7" />
           </div>
           <div>
-            <h2 style={{ fontFamily: 'Nunito, sans-serif' }} className="text-2xl font-black text-[#332F3A] tracking-tight">
+            <h2
+              style={{ fontFamily: 'Nunito, sans-serif' }}
+              className="text-2xl font-black text-[#332F3A] tracking-tight"
+            >
               Patient Biometric Parameters
             </h2>
             <p className="text-xs text-[#635F69] font-medium mt-0.5">
-              Adjust clinical inputs to simulate with the Classical ML pipeline and Qiskit 4-qubit toy circuit.
+              Adjust parameters using the circular dials or typing below each selector.
             </p>
           </div>
         </div>
 
         {/* Tactile Preset Buttons */}
         <div className="flex items-center gap-2.5 flex-wrap">
-          <span style={{ fontFamily: 'Nunito, sans-serif' }} className="text-xs font-bold text-[#635F69] uppercase tracking-wider">
+          <span
+            style={{ fontFamily: 'Nunito, sans-serif' }}
+            className="text-xs font-bold text-[#635F69] uppercase tracking-wider"
+          >
             Quick Presets:
           </span>
           {PRESETS.map((p, idx) => (
@@ -112,198 +119,150 @@ export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading })
       </div>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Age Card */}
-          <div className="bg-white/90 border border-white rounded-[28px] p-5 shadow-clay-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#38BDF8] to-[#0284C7] text-white flex items-center justify-center shadow-clay-orb">
-                    <User className="w-4 h-4" />
-                  </div>
-                  <label style={{ fontFamily: 'Nunito, sans-serif' }} className="text-sm font-extrabold text-[#332F3A]">
-                    Age (Years)
-                  </label>
-                </div>
-                <input
-                  type="number"
-                  min={30}
-                  max={100}
-                  value={formData.age}
-                  onChange={(e) => handleChange('age', clampedInt(e.target.value, 30, 100))}
-                  className="w-16 px-2.5 py-1.5 bg-[#EFEBF5] rounded-2xl shadow-clay-pressed text-right text-xs font-mono font-bold text-[#7C3AED] focus:bg-white focus:ring-4 focus:ring-[#7C3AED]/20 outline-none"
-                />
-              </div>
-              <input
-                type="range"
-                min={30}
-                max={100}
-                value={formData.age}
-                onChange={(e) => handleChange('age', parseInt(e.target.value))}
-                className="w-full h-2 bg-[#E9E4F2] rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-between text-[11px] font-mono text-[#635F69] mt-2">
-              <span>30 yrs</span>
-              <span className="font-bold text-[#7C3AED]">{formData.age} yrs</span>
-              <span>100 yrs</span>
-            </div>
-          </div>
+        {/* Responsive Grid of Circular Selectors */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+          {/* 1. Age Circular Selector */}
+          <CircularSelector
+            label="Age"
+            unit="yrs"
+            value={formData.age}
+            min={30}
+            max={100}
+            icon={<Calendar className="w-4 h-4" />}
+            colorScheme={{
+              stroke: '#0EA5E9',
+              text: 'text-[#0284C7]',
+              badgeBg: 'bg-[#E0F2FE]',
+              iconBg: 'bg-gradient-to-br from-[#38BDF8] to-[#0284C7]',
+              glow: 'rgba(14, 165, 233, 0.2)'
+            }}
+            onChange={(val) => handleChange('age', val)}
+            helperText="30–100 yrs range"
+          />
 
-          {/* Gender Card */}
-          <div className="bg-white/90 border border-white rounded-[28px] p-5 shadow-clay-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#F472B6] to-[#DB2777] text-white flex items-center justify-center shadow-clay-orb">
+          {/* 2. Biological Gender Card */}
+          <div className="bg-white/90 border border-white rounded-[28px] p-5 shadow-clay-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between items-center text-center">
+            <div className="w-full flex items-center justify-between gap-2 mb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#F472B6] to-[#DB2777] text-white flex items-center justify-center shadow-clay-orb shrink-0">
                   <User className="w-4 h-4" />
                 </div>
-                <label style={{ fontFamily: 'Nunito, sans-serif' }} className="text-sm font-extrabold text-[#332F3A]">
-                  Biological Gender
-                </label>
-              </div>
-              <div className="grid grid-cols-2 gap-3 mt-1">
-                <button
-                  type="button"
-                  onClick={() => handleChange('gender', 0)}
+                <span
                   style={{ fontFamily: 'Nunito, sans-serif' }}
-                  className={`py-2.5 px-3 rounded-2xl text-xs font-extrabold transition-all duration-200 cursor-pointer ${
-                    formData.gender === 0
-                      ? 'bg-gradient-to-br from-[#F472B6] to-[#DB2777] text-white shadow-clay-button'
-                      : 'bg-[#EFEBF5] text-[#635F69] shadow-clay-pressed hover:bg-white'
-                  }`}
+                  className="text-sm font-extrabold text-[#332F3A] text-left"
                 >
-                  Female (0)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleChange('gender', 1)}
-                  style={{ fontFamily: 'Nunito, sans-serif' }}
-                  className={`py-2.5 px-3 rounded-2xl text-xs font-extrabold transition-all duration-200 cursor-pointer ${
-                    formData.gender === 1
-                      ? 'bg-gradient-to-br from-[#38BDF8] to-[#0284C7] text-white shadow-clay-button'
-                      : 'bg-[#EFEBF5] text-[#635F69] shadow-clay-pressed hover:bg-white'
-                  }`}
-                >
-                  Male (1)
-                </button>
+                  Gender
+                </span>
               </div>
+              <span className="text-[10px] font-mono font-bold text-[#635F69] bg-[#EFEBF5] px-2 py-0.5 rounded-full">
+                Binary
+              </span>
             </div>
-            <p className="text-[10px] text-[#635F69] font-medium mt-2">
-              Encoded binary indicator for classical model input.
-            </p>
-          </div>
 
-          {/* Blood Pressure Card */}
-          <div className="bg-white/90 border border-white rounded-[28px] p-5 shadow-clay-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FB923C] to-[#EA580C] text-white flex items-center justify-center shadow-clay-orb">
-                    <Gauge className="w-4 h-4" />
-                  </div>
-                  <label style={{ fontFamily: 'Nunito, sans-serif' }} className="text-sm font-extrabold text-[#332F3A]">
-                    Systolic BP (mmHg)
-                  </label>
-                </div>
-                <input
-                  type="number"
-                  min={80}
-                  max={220}
-                  value={formData.blood_pressure}
-                  onChange={(e) => handleChange('blood_pressure', clampedInt(e.target.value, 80, 220))}
-                  className="w-16 px-2.5 py-1.5 bg-[#EFEBF5] rounded-2xl shadow-clay-pressed text-right text-xs font-mono font-bold text-[#EA580C] focus:bg-white focus:ring-4 focus:ring-[#FB923C]/20 outline-none"
-                />
+            {/* Visual Icon / Illustration Container */}
+            <div className="my-3 flex flex-col items-center justify-center">
+              <div
+                className={`w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  formData.gender === 1
+                    ? 'bg-gradient-to-br from-[#E0F2FE] to-[#BAE6FD] text-[#0284C7] shadow-clay-orb'
+                    : 'bg-gradient-to-br from-[#FCE7F3] to-[#FBCFE8] text-[#DB2777] shadow-clay-orb'
+                }`}
+              >
+                <User className="w-10 h-10" />
               </div>
-              <input
-                type="range"
-                min={80}
-                max={220}
-                value={formData.blood_pressure}
-                onChange={(e) => handleChange('blood_pressure', parseInt(e.target.value))}
-                className="w-full h-2 bg-[#E9E4F2] rounded-lg appearance-none cursor-pointer"
-              />
+              <span
+                style={{ fontFamily: 'Nunito, sans-serif' }}
+                className="text-xs font-black text-[#332F3A] mt-2"
+              >
+                {formData.gender === 1 ? 'Male (1)' : 'Female (0)'}
+              </span>
             </div>
-            <div className="flex justify-between text-[11px] font-mono text-[#635F69] mt-2">
-              <span>80 mmHg</span>
-              <span className="font-bold text-[#EA580C]">{formData.blood_pressure} mmHg</span>
-              <span>220 mmHg</span>
-            </div>
-          </div>
 
-          {/* Cholesterol Card */}
-          <div className="bg-white/90 border border-white rounded-[28px] p-5 shadow-clay-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#A78BFA] to-[#7C3AED] text-white flex items-center justify-center shadow-clay-orb">
-                    <Droplet className="w-4 h-4" />
-                  </div>
-                  <label style={{ fontFamily: 'Nunito, sans-serif' }} className="text-sm font-extrabold text-[#332F3A]">
-                    Cholesterol (mg/dL)
-                  </label>
-                </div>
-                <input
-                  type="number"
-                  min={100}
-                  max={400}
-                  value={formData.cholesterol}
-                  onChange={(e) => handleChange('cholesterol', clampedInt(e.target.value, 100, 400))}
-                  className="w-16 px-2.5 py-1.5 bg-[#EFEBF5] rounded-2xl shadow-clay-pressed text-right text-xs font-mono font-bold text-[#7C3AED] focus:bg-white focus:ring-4 focus:ring-[#7C3AED]/20 outline-none"
-                />
-              </div>
-              <input
-                type="range"
-                min={100}
-                max={400}
-                value={formData.cholesterol}
-                onChange={(e) => handleChange('cholesterol', parseInt(e.target.value))}
-                className="w-full h-2 bg-[#E9E4F2] rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-between text-[11px] font-mono text-[#635F69] mt-2">
-              <span>100 mg/dL</span>
-              <span className="font-bold text-[#7C3AED]">{formData.cholesterol} mg/dL</span>
-              <span>400 mg/dL</span>
+            {/* Squishy Toggle Buttons */}
+            <div className="w-full grid grid-cols-2 gap-2 mt-auto pt-2">
+              <button
+                type="button"
+                onClick={() => handleChange('gender', 0)}
+                style={{ fontFamily: 'Nunito, sans-serif' }}
+                className={`py-2 px-2 rounded-2xl text-xs font-extrabold transition-all duration-200 cursor-pointer ${
+                  formData.gender === 0
+                    ? 'bg-gradient-to-br from-[#F472B6] to-[#DB2777] text-white shadow-clay-button'
+                    : 'bg-[#EFEBF5] text-[#635F69] shadow-clay-pressed hover:bg-white'
+                }`}
+              >
+                Female
+              </button>
+              <button
+                type="button"
+                onClick={() => handleChange('gender', 1)}
+                style={{ fontFamily: 'Nunito, sans-serif' }}
+                className={`py-2 px-2 rounded-2xl text-xs font-extrabold transition-all duration-200 cursor-pointer ${
+                  formData.gender === 1
+                    ? 'bg-gradient-to-br from-[#38BDF8] to-[#0284C7] text-white shadow-clay-button'
+                    : 'bg-[#EFEBF5] text-[#635F69] shadow-clay-pressed hover:bg-white'
+                }`}
+              >
+                Male
+              </button>
             </div>
           </div>
 
-          {/* Heart Rate Card */}
-          <div className="bg-white/90 border border-white rounded-[28px] p-5 shadow-clay-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#F87171] to-[#DC2626] text-white flex items-center justify-center shadow-clay-orb">
-                    <Heart className="w-4 h-4" />
-                  </div>
-                  <label style={{ fontFamily: 'Nunito, sans-serif' }} className="text-sm font-extrabold text-[#332F3A]">
-                    Heart Rate (bpm)
-                  </label>
-                </div>
-                <input
-                  type="number"
-                  min={40}
-                  max={180}
-                  value={formData.heart_rate}
-                  onChange={(e) => handleChange('heart_rate', clampedInt(e.target.value, 40, 180))}
-                  className="w-16 px-2.5 py-1.5 bg-[#EFEBF5] rounded-2xl shadow-clay-pressed text-right text-xs font-mono font-bold text-[#DC2626] focus:bg-white focus:ring-4 focus:ring-[#F87171]/20 outline-none"
-                />
-              </div>
-              <input
-                type="range"
-                min={40}
-                max={180}
-                value={formData.heart_rate}
-                onChange={(e) => handleChange('heart_rate', parseInt(e.target.value))}
-                className="w-full h-2 bg-[#E9E4F2] rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-            <div className="flex justify-between text-[11px] font-mono text-[#635F69] mt-2">
-              <span>40 bpm</span>
-              <span className="font-bold text-[#DC2626]">{formData.heart_rate} bpm</span>
-              <span>180 bpm</span>
-            </div>
-          </div>
+          {/* 3. Blood Pressure Circular Selector */}
+          <CircularSelector
+            label="Systolic BP"
+            unit="mmHg"
+            value={formData.blood_pressure}
+            min={80}
+            max={220}
+            icon={<Gauge className="w-4 h-4" />}
+            colorScheme={{
+              stroke: '#EA580C',
+              text: 'text-[#EA580C]',
+              badgeBg: 'bg-[#FFEDD5]',
+              iconBg: 'bg-gradient-to-br from-[#FB923C] to-[#EA580C]',
+              glow: 'rgba(234, 88, 12, 0.2)'
+            }}
+            onChange={(val) => handleChange('blood_pressure', val)}
+            helperText="80–220 mmHg"
+          />
 
+          {/* 4. Cholesterol Circular Selector */}
+          <CircularSelector
+            label="Cholesterol"
+            unit="mg/dL"
+            value={formData.cholesterol}
+            min={100}
+            max={400}
+            icon={<Droplet className="w-4 h-4" />}
+            colorScheme={{
+              stroke: '#7C3AED',
+              text: 'text-[#7C3AED]',
+              badgeBg: 'bg-[#EDE9FE]',
+              iconBg: 'bg-gradient-to-br from-[#A78BFA] to-[#7C3AED]',
+              glow: 'rgba(124, 58, 237, 0.2)'
+            }}
+            onChange={(val) => handleChange('cholesterol', val)}
+            helperText="100–400 mg/dL"
+          />
+
+          {/* 5. Heart Rate Circular Selector */}
+          <CircularSelector
+            label="Heart Rate"
+            unit="bpm"
+            value={formData.heart_rate}
+            min={40}
+            max={180}
+            icon={<Heart className="w-4 h-4" />}
+            colorScheme={{
+              stroke: '#DC2626',
+              text: 'text-[#DC2626]',
+              badgeBg: 'bg-[#FEE2E2]',
+              iconBg: 'bg-gradient-to-br from-[#F87171] to-[#DC2626]',
+              glow: 'rgba(220, 38, 38, 0.2)'
+            }}
+            onChange={(val) => handleChange('heart_rate', val)}
+            helperText="40–180 bpm"
+          />
         </div>
 
         {/* Submit CTA Button */}
