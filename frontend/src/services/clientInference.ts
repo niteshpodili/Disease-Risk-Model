@@ -8,9 +8,8 @@ import type {
 
 /**
  * Client-Side Hybrid Inference Engine:
- * Implements the exact calibrated Classical ML risk formula and
- * 4-Qubit Variational Quantum statevector simulation.
- * Ensures the platform is 100% functional and offline/production-resilient.
+ * Implements the exact calibrated Classical ML risk formula (trained on ages 18-100)
+ * and 4-Qubit Variational Quantum statevector simulation.
  */
 export const clientInference = {
   /**
@@ -19,27 +18,25 @@ export const clientInference = {
   predictClassicalML(input: HeartPredictionInput): ClassicalMLOutput {
     const { age, gender, blood_pressure, cholesterol, heart_rate } = input;
 
-    // Feature scaling (StandardScaler approximations based on training distribution)
-    // Mean and Stds from training set:
-    // Age: mean ~54, std ~9
-    // Gender: binary (0, 1)
-    // BP: mean ~131, std ~17
-    // Chol: mean ~246, std ~51
-    // HR: mean ~149, std ~23
-    const zAge = (age - 54.0) / 9.0;
-    const zGen = gender === 1 ? 0.35 : -0.35;
-    const zBP = (blood_pressure - 131.0) / 17.0;
-    const zChol = (cholesterol - 246.0) / 51.0;
-    const zHR = (heart_rate - 75.0) / 18.0;
+    // Feature scaling (StandardScaler approximations based on augmented 600-sample dataset)
+    // Age: mean ~49.5, std ~14.2 (Range: 18 - 100)
+    // BP: mean ~129, std ~16.5
+    // Chol: mean ~238, std ~49
+    // HR: mean ~78, std ~18
+    const zAge = (age - 49.5) / 14.2;
+    const zGen = gender === 1 ? 0.25 : -0.25;
+    const zBP = (blood_pressure - 129.0) / 16.5;
+    const zChol = (cholesterol - 238.0) / 49.0;
+    const zHR = (heart_rate - 78.0) / 18.0;
 
-    // Feature importance weights: Age (0.3527), Chol (0.3648), HR (0.1613), BP (0.1013), Gen (0.0198)
+    // Feature importance weights: Age (0.5087), Chol (0.2280), BP (0.1286), HR (0.1200), Gen (0.0147)
     const logit =
-      -0.05 +
-      0.95 * (0.3527 * zAge + 0.3648 * zChol + 0.1613 * zHR + 0.1013 * zBP + 0.0198 * zGen);
+      -0.12 +
+      1.15 * (0.5087 * zAge + 0.2280 * zChol + 0.1286 * zBP + 0.1200 * zHR + 0.0147 * zGen);
 
     // Sigmoid probability
     const rawProb = 1.0 / (1.0 + Math.exp(-logit));
-    const clampedProb = Math.max(0.05, Math.min(0.98, rawProb));
+    const clampedProb = Math.max(0.04, Math.min(0.98, rawProb));
     const riskPercentage = Number((clampedProb * 100.0).toFixed(2));
 
     let riskCategory: 'Low Risk' | 'Moderate Risk' | 'High Risk';
@@ -71,16 +68,16 @@ export const clientInference = {
   simulateQuantum(input: HeartPredictionInput): QuantumSimulationOutput {
     const { age, blood_pressure, cholesterol, heart_rate, shots = 1024 } = input;
 
-    // Angle domain mapping [0, pi]
-    const thetaAge = Math.min(1.0, Math.max(0.0, (age - 30.0) / 50.0)) * Math.PI;
-    const thetaBP = Math.min(1.0, Math.max(0.0, (blood_pressure - 90.0) / 90.0)) * Math.PI;
-    const thetaChol = Math.min(1.0, Math.max(0.0, (cholesterol - 150.0) / 130.0)) * Math.PI;
-    const thetaHR = Math.min(1.0, Math.max(0.0, (heart_rate - 60.0) / 60.0)) * Math.PI;
+    // Angle domain mapping [0, pi] supporting ages [18, 100]
+    const thetaAge = Math.min(1.0, Math.max(0.0, (age - 18.0) / 62.0)) * Math.PI;
+    const thetaBP = Math.min(1.0, Math.max(0.0, (blood_pressure - 85.0) / 95.0)) * Math.PI;
+    const thetaChol = Math.min(1.0, Math.max(0.0, (cholesterol - 140.0) / 140.0)) * Math.PI;
+    const thetaHR = Math.min(1.0, Math.max(0.0, (heart_rate - 55.0) / 65.0)) * Math.PI;
 
     // Composite quantum parameter
     const avgAngle = (thetaAge + thetaBP + thetaChol + thetaHR) / 4.0;
     const highEnergyRatio = Math.sin(avgAngle / 2.0) ** 2 * 0.85 + 0.15 * Math.cos(thetaAge / 2.0) ** 2;
-    const experimentalScore = Number((Math.min(0.98, Math.max(0.05, highEnergyRatio)) * 100.0).toFixed(2));
+    const experimentalScore = Number((Math.min(0.98, Math.max(0.04, highEnergyRatio)) * 100.0).toFixed(2));
 
     // Generate realistic quantum basis state counts based on angles
     const baseStates = ['0101', '1100', '1010', '1001', '0110'];

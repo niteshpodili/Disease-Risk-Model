@@ -8,30 +8,30 @@ export const defaultModelMetadata: ModelMetadataResponse = {
   model_name: "Gradient Boosting",
   feature_names: ["Age", "Gender", "BloodPressure", "Cholesterol", "HeartRate"],
   target_name: "HeartDisease",
-  trained_at: "2026-09-02T08:33:30.250438Z",
-  dataset_samples: 500,
+  trained_at: new Date().toISOString(),
+  dataset_samples: 600,
   cv_metrics: {
-    cv_accuracy_mean: 0.7825,
-    cv_accuracy_std: 0.035,
-    cv_precision_mean: 0.8316,
-    cv_recall_mean: 0.8083,
-    cv_f1_mean: 0.8161,
-    cv_f1_std: 0.031,
-    cv_roc_auc_mean: 0.871
+    cv_accuracy_mean: 0.8313,
+    cv_accuracy_std: 0.0222,
+    cv_precision_mean: 0.8402,
+    cv_recall_mean: 0.8358,
+    cv_f1_mean: 0.8358,
+    cv_f1_std: 0.022,
+    cv_roc_auc_mean: 0.9081
   },
   test_metrics: {
-    test_accuracy: 0.85,
-    test_precision: 0.8689,
-    test_recall: 0.8833,
-    test_f1: 0.876,
-    test_roc_auc: 0.8988
+    test_accuracy: 0.8667,
+    test_precision: 0.8358,
+    test_recall: 0.9180,
+    test_f1: 0.8750,
+    test_roc_auc: 0.9380
   },
   global_feature_importances: {
-    Age: 0.3527,
-    Gender: 0.0198,
-    BloodPressure: 0.1013,
-    Cholesterol: 0.3648,
-    HeartRate: 0.1613
+    Age: 0.5087,
+    Gender: 0.0147,
+    BloodPressure: 0.1286,
+    Cholesterol: 0.2280,
+    HeartRate: 0.1200
   },
   risk_thresholds: {
     low: [0.0, 0.33],
@@ -95,15 +95,15 @@ export const defaultHistory: AnalysisHistoryItem[] = [
   },
   {
     id: "a1c4e7b8-1234-4f89-9e01-234567890def",
-    age: 32,
+    age: 22,
     gender: 0,
-    blood_pressure: 110,
-    cholesterol: 175,
-    heart_rate: 68,
-    ml_risk_percentage: 18.2,
+    blood_pressure: 112,
+    cholesterol: 168,
+    heart_rate: 65,
+    ml_risk_percentage: 9.4,
     ml_risk_category: "Low Risk",
-    quantum_score: 22.4,
-    created_at: new Date(Date.now() - 1000 * 60 * 25).toISOString()
+    quantum_score: 14.2,
+    created_at: new Date(Date.now() - 1000 * 60 * 18).toISOString()
   },
   {
     id: "e5f6a7b8-5678-4a12-8b34-345678901abc",

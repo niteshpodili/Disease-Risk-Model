@@ -19,6 +19,11 @@ interface PatientFormProps {
 
 const PRESETS: { name: string; desc: string; values: HeartPredictionInput }[] = [
   {
+    name: 'Young Adult',
+    desc: '22y Female, Baseline Healthy Biometrics',
+    values: { age: 22, gender: 0, blood_pressure: 112, cholesterol: 168, heart_rate: 65, shots: 1024 }
+  },
+  {
     name: 'Healthy Adult',
     desc: '32y Female, Normal BP & Chol',
     values: { age: 32, gender: 0, blood_pressure: 110, cholesterol: 175, heart_rate: 68, shots: 1024 }
@@ -90,7 +95,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading })
               Patient Biometric Parameters
             </h2>
             <p className="text-xs text-[#635F69] font-medium mt-0.5">
-              Adjust parameters using the circular dials or typing below each selector.
+              Adjust parameters using the circular dials or typing below each selector (Ages 18–100).
             </p>
           </div>
         </div>
@@ -121,12 +126,12 @@ export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading })
       <form onSubmit={handleSubmit} className="mt-8 space-y-8">
         {/* Responsive Grid of Circular Selectors */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
-          {/* 1. Age Circular Selector */}
+          {/* 1. Age Circular Selector (18 to 100) */}
           <CircularSelector
             label="Age"
             unit="yrs"
             value={formData.age}
-            min={30}
+            min={18}
             max={100}
             icon={<Calendar className="w-4 h-4" />}
             colorScheme={{
@@ -137,7 +142,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading })
               glow: 'rgba(14, 165, 233, 0.2)'
             }}
             onChange={(val) => handleChange('age', val)}
-            helperText="30–100 yrs range"
+            helperText="18–100 yrs range"
           />
 
           {/* 2. Biological Gender Card */}
@@ -159,7 +164,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ onSubmit, isLoading })
               </span>
             </div>
 
-            {/* Visual Icon / Illustration Container */}
+            {/* Visual Icon Container */}
             <div className="my-3 flex flex-col items-center justify-center">
               <div
                 className={`w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 ${
